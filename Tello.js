@@ -31,8 +31,10 @@ class Tello {
 	sendCommand(message){
 		var command = new Buffer.from(message);
 		this.command_socket.send(command, 0, command.length, this.command_port, this.tello_address, (err, bytes) =>{
-			if(err)
+			if(err){
 				console.log(err);
+				// if error, keep sending the command till succeed, need test
+				sendCommand(message)}
 		})
 	}
 
@@ -53,6 +55,40 @@ class Tello {
 			if(line === 'close'){
 				rl.close();
 			}
+
+			if(line === 'triangle'){
+				that.sendCommand('go 20 0 0 2');
+				that.sendCommand('go 20 20 0 2');
+				that.sendCommand('go 0 0 0 2');
+			}
+
+			if(line === 'square'){
+				that.sendCommand('go 20 0 0 2');
+				that.sendCommand('go 20 20 0 2');
+				that.sendCommand('go 0 20 0 2');
+				that.sendCommand('go 0 0 0 2');
+			}
+
+			if(line === 'circle'){
+				that.sendCommand('go 0 0 20 2');
+				that.sendCommand('curve -20 48.3 0 0 96.6 0 2');
+				that.sendCommand('curve 48.3 116.6 0 96.6 96.6 0 2');
+				that.sendCommand('curve 116.6 48.3 0 96.6 0 0 2');
+				that.sendCommand('curve 48.3 -20 0 0 0 0 2');
+			}
+
+			if(line === 'cube'){
+				that.sendCommand('go 20 0 0 2');
+				that.sendCommand('go 20 20 0 2');
+				that.sendCommand('go 0 20 0 2');
+				that.sendCommand('go 0 0 0 2');
+				that.sendCommand('go 0 0 20 2');
+				that.sendCommand('go 20 0 0 2');
+				that.sendCommand('go 20 20 0 2');
+				that.sendCommand('go 0 20 0 2');
+				that.sendCommand('go 0 0 0 2');
+			}
+
 			if(line === 'rt'){
 				readline.emitKeypressEvents(process.stdin);
 				process.stdin.setRawMode(true);
