@@ -57,12 +57,14 @@ class Tello {
 			}
 
 			if(line === 'triangle'){
+				that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
 				that.sendCommand('go 20 0 0 2');
 				that.sendCommand('go 20 20 0 2');
 				that.sendCommand('go 0 0 0 2');
 			}
 
 			if(line === 'square'){
+				that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
 				that.sendCommand('go 20 0 0 2');
 				that.sendCommand('go 20 20 0 2');
 				that.sendCommand('go 0 20 0 2');
@@ -70,7 +72,7 @@ class Tello {
 			}
 
 			if(line === 'circle'){
-				that.sendCommand('go 0 0 20 2');
+				that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
 				that.sendCommand('curve -20 48.3 0 0 96.6 0 2');
 				that.sendCommand('curve 48.3 116.6 0 96.6 96.6 0 2');
 				that.sendCommand('curve 116.6 48.3 0 96.6 0 0 2');
@@ -78,6 +80,7 @@ class Tello {
 			}
 
 			if(line === 'cube'){
+				that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
 				that.sendCommand('go 20 0 0 2');
 				that.sendCommand('go 20 20 0 2');
 				that.sendCommand('go 0 20 0 2');
