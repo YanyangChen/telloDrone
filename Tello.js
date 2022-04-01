@@ -5,10 +5,12 @@ class Tello {
 	constructor(){
 		this.tello_address = '192.168.10.1';
 		this.command_port = 8889;
-
+		//console.log(1);
+		
 		const dgram = require('dgram');
 		this.command_socket = dgram.createSocket('udp4');
 		this.initCommandSocket();
+
 	}
 
 	// function for handling incoming messages & errors from tello
@@ -33,8 +35,9 @@ class Tello {
 		this.command_socket.send(command, 0, command.length, this.command_port, this.tello_address, (err, bytes) =>{
 			if(err){
 				console.log(err);
-				// if error, keep sending the command till succeed, need test
-				sendCommand(message)}
+				//if error, keep sending the command till succeed, need test
+				sendCommand(message)
+			}
 		})
 	}
 
@@ -54,6 +57,27 @@ class Tello {
 			// if we type in close, close interface
 			if(line === 'close'){
 				rl.close();
+			}
+
+			if(line === 'tl'){
+				//that.sendCommand('takeoff');
+				(async() => {
+				//setTimeout(function(){that.sendCommand('takeoff');}, 1000);
+				that.sendCommand('takeoff');
+				await sleep(8000);
+				//console.log("landing");
+				that.sendCommand('land');
+				//setTimeout(function(){console.log("landing");that.sendCommand('land');}, 1000);
+				})()
+			}
+
+			if(line === 'flyline'){
+				//that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
+				that.sendCommand('takeoff')
+				that.sendCommand('go 80 0 0 20');
+				that.sendCommand('go -80 0 0 20');
+				that.sendCommand('land')
+				//that.sendCommand('go 0 0 0 2');
 			}
 
 			if(line === 'triangle'){
@@ -154,6 +178,11 @@ class Tello {
 	}
 }
 
+function sleep(ms) {
+	return new Promise((resolve) => {
+	  setTimeout(resolve, ms);
+	});
+  }
 
 // init drone and start
 let drone = new Tello();
