@@ -73,18 +73,31 @@ class Tello {
 
 			if(line === 'flyline'){
 				//that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
+				(async() => {
 				that.sendCommand('takeoff')
-				that.sendCommand('go 80 0 0 20');
-				that.sendCommand('go -80 0 0 20');
+				await sleep(8000);
+				that.sendCommand('go 40 0 0 20');
+				await sleep(5000);
+				that.sendCommand('go -40 0 0 20');
+				await sleep(5000);
 				that.sendCommand('land')
+				})()
 				//that.sendCommand('go 0 0 0 2');
 			}
 
 			if(line === 'triangle'){
-				that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
-				that.sendCommand('go 20 0 0 2');
-				that.sendCommand('go 20 20 0 2');
-				that.sendCommand('go 0 0 0 2');
+				//that.sendCommand('go 0 0 20 2');//for safety reason, go up 20 cm first
+				(async() => {
+				that.sendCommand('takeoff');
+				await sleep(10000);
+				that.sendCommand('go 20 0 0 20');
+				await sleep(5000);
+				that.sendCommand('go 0 20 0 20');
+				await sleep(5000);
+				that.sendCommand('go -20 -20 0 20');
+				await sleep(5000);
+				that.sendCommand('land');
+				})()
 			}
 
 			if(line === 'square'){
